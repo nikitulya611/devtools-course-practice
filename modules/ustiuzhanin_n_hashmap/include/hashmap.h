@@ -113,7 +113,7 @@ class Hashmap {
 
     Hashmap& resize(int newSize) {
         if (newSize <= maxSize)
-            throw std::exception("Resize: new size less or equal current size");
+            throw std::string("Resize: new size less or equal current size");
 
         Hashmap<T, K> result(newSize);
         for (int i = 0; i < this->maxSize; i++) {
@@ -133,7 +133,7 @@ class Hashmap {
 
         while (this->data[index].getKey() != T()) {
             if (this->data[index].getKey() == rec.getKey()) {
-                throw std::exception("Record with this key already exist");
+                throw std::string("Record with this key already exist");
             }
             index += prime;
         }
@@ -151,12 +151,12 @@ class Hashmap {
 
     void erase(T key) {
         if (this->isEmpty())
-            throw std::exception("Erase from empty table");
+            throw std::string("Erase from empty table");
 
         size_t index = hash(key);
         while (this->data[index].getKey() != key) {
             if (this->data[index].getKey() == T())
-                throw std::exception("Erase: Wrong key");
+                throw std::string("Erase: Wrong key");
             index += prime;
         }
 
@@ -170,7 +170,7 @@ class Hashmap {
         while (this->data[index].getKey() != key) {
             if (this->data[index].getKey() == T() &&
                 !this->data[index].isDel())
-                throw std::exception("Access: Wrong key");
+                throw std::string("Access: Wrong key");
 
             index += prime;
             index %= this->maxSize;
