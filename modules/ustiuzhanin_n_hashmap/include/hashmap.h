@@ -1,205 +1,208 @@
-﻿// Copyright 2022 Ustiuzhanin Nikita
+﻿  // Copyright 2022 Ustiuzhanin Nikita
 
-#ifndef USTIUZHANIN_HASHMAP
-#define USTIUZHANIN_HASHMAP
+#ifndef SOURCE_REPOS_DEVTOOLS_COURSE_PRACTICE_MODULES_USTIUZHANIN_N_HASHMAP_INCLUDE_HASHMAP_H_
+#define SOURCE_REPOS_DEVTOOLS_COURSE_PRACTICE_MODULES_USTIUZHANIN_N_HASHMAP_INCLUDE_HASHMAP_H_
+
+const int default_size = 101;
 
 #include <exception>
 #include <string>
 
+#include <iostream>
+
 template<class T, class K>
-class Record
-{
-public:
+class Record {
+ public:
+    explicit Record(T mKey = T(), K mValue = K()) :
+        key(mKey), value(mValue), isDeleted(false) {}
+    Record(const Record<T, K>& rec) {
+        key = rec.key;
+        value = rec.value;
+        isDeleted = false;
+    }
 
-	Record(T mKey = nullptr, K mValue = nullptr) : key(mKey), value(mValue), isDeleted(false) {};
-	Record(const Record<T, K>& rec)
-	{
-		key = rec.key;
-		value = rec.value;
-		isDeleted = false;
-	}
+    ~Record() {}
 
-	~Record() {};
+    void setKey(T newKey) {
+        key = newKey;
+    }
 
-	void setKey(T newKey)
-	{
-		key = newKey;
-	}
+    T getKey() const {
+        return key;
+    }
 
-	T getKey() const
-	{
-		return key;
-	}
+    void setValue(K newValue) {
+        value = newValue;
+    }
 
-	void setValue(K newValue)
-	{
-		value = newValue;
-	}
+    K getValue() const {
+        return value;
+    }
 
-	K getValue() const
-	{
-		return value;
-	}
+    bool isDel() {
+        return isDeleted;
+    }
 
-	bool isDel()
-	{
-		return isDeleted;
-	}
+    void setDel(bool b) {
+        isDeleted = b;
+    }
 
-	void setDel(bool b)
-	{
-		isDeleted = b;
-	}
+    bool operator==(const Record<T, K>& rec) {
+        return key == rec.key;
+    }
 
-	bool operator==(const Record<T, K>& rec)
-	{
-		return key == rec.key;
-	}
+    bool operator<(const Record<T, K>& rec) {
+        return key < rec.key;
+    }
 
-	bool operator<(const Record<T, K>& rec)
-	{
-		return key < rec.key;
-	}
+    bool operator>(const Record<T, K>& rec) {
+        return key > rec.key;
+    }
 
-	bool operator>(const Record<T, K>& rec)
-	{
-		return key > rec.key;
-	}
+    Record<T, K>& operator=(const Record<T, K>& rec) {
+        key = rec.key;
+        value = rec.value;
+        return *this;
+    }
 
-	Record<T, K>& operator=(const Record<T, K>& rec)
-	{
-		key = rec.key;
-		value = rec.value;
-		return *this;
-	}
+    void clear() {
+        key = T();
+        value = K();
+    }
 
-	void clear()
-	{
-		key = nullptr;
-		value = nullptr;
-	}
-
-private:
-	T key;
-	K value;
-	bool isDeleted;
+ private:
+    T key;
+    K value;
+    bool isDeleted;
 };
 
 template<class T, class K>
-class Hashmap
-{
-public:
-	Hashmap(int size = 101) 
-	{
-		maxSize = size;
-		this->size = 0;
-		data = new K[maxSize];
-	}
+class Hashmap {
+ public:
+    Hashmap() {
+         maxSize = default_size;
+         _size = 0;
+         data = new Record<T, K>[maxSize];
+    }
 
-	virtual ~Hashmap()
-	{
-		delete[] data;
-	}
+    explicit Hashmap(int size) {
+        maxSize = size;
+        _size = 0;
+        data = new Record<T, K>[maxSize];
+    }
 
-	int size() const
-	{
-		return size;
-	}
+    virtual ~Hashmap() {
+        delete[] data;
+    }
 
-	bool isEmpty() const
-	{
-		return _size == 0;
-	}
+    size_t hash(T key) {
+        return std::hash<T>{}(key) % maxSize;
+    }
 
-	bool isFull()
-	{
-		return _size == maxSize;
-	}
+    int size() const {
+        return _size;
+    }
 
-	Hashmap& resize(int newSize)
-	{
-		Hashmap result(newSize);
-		for (int i = 0; i < this->maxSize; i++)
-		{
-			result.data[i] = this->data[i];
-		}
+    bool isEmpty() const {
+        return _size == 0;
+    }
 
-		*this = result;
-		return *this;
-	}
+    bool isFull() {
+        return _size == maxSize;
+    }
 
-	void insert(Record<T, K>& rec)
-	{
-		//если таблица заполнена > 75% -> resize(maxSize * 2)
-		if (double(this->dataCount) / this->maxSize > 0.75)
-			resize(this->maxSize * 2);
+    Hashmap& resize(int newSize) {
+        if (newSize <= maxSize)
+            throw "Resize: new size less or equal current size";
 
-		int index = std::hash<T>(rec.getKey());
+        Hashmap<T, K> result(newSize);
+        for (int i = 0; i < this->maxSize; i++) {
+            result.data[i] = this->data[i];
+        }
 
+        *this = result;
+        return *this;
+    }
 
-		while (this->data[index].getKey() != nullptr)
-		{
-			if (this->data[index].getKey() == rec.getKey())
-			{
-				std::string problem = "Record with key \"" + rec.getKey() + "\" already exist";
-				throw std::exception(problem.c_str());
-			}
+    void insert(const Record<T, K>& rec) {
+        // если таблица заполнена > 75% -> resize(maxSize * 2)
+        if (static_cast<double>(this->_size) / this->maxSize > 0.75)
+            resize(this->maxSize * 2);
 
-			index += prime;
-		}
+        size_t index = hash(rec.getKey());
 
-		this->data[index] = rec;
-		this->data[index].setDel(false);
-		this->dataCount++;
-		return;
-	}
+        while (this->data[index].getKey() != T()) {
+            if (this->data[index].getKey() == rec.getKey()) {
+                throw "Record with this key already exist";
+            }
+            index += prime;
+        }
 
-	void insert(T key = nullptr, T value = 0)
-	{
-		Record<T, K> rec(key, value);
-		insert(rec);
-	}
+        this->data[index] = rec;
+        this->data[index].setDel(false);
+        this->_size++;
+        return;
+    }
 
-	void erase(T key)
-	{
-		if (this->isEmpty())
-			throw std::exception("Erase from empty table");
+    void insert(T key = T(), K value = K()) {
+        Record<T, K> rec(key, value);
+        insert(rec);
+    }
 
-		int index = std::hash<T>(key);
-		while (this->data[index].getKey() != key)
-		{
-			if (this->data[index].getKey() == nullptr)
-				throw std::exception("Erase: Wrong key");
-			index += prime;
-		}
+    void erase(T key) {
+        if (this->isEmpty())
+            throw std::exception("Erase from empty table");
 
-		this->data[index].clear();
-		this->data[index].setDel(true);
-		this->dataCount--;
-	}
+        size_t index = hash(key);
+        while (this->data[index].getKey() != key) {
+            if (this->data[index].getKey() == T())
+                throw std::exception("Erase: Wrong key");
+            index += prime;
+        }
 
-	K operator[](T key)
-	{
-		int index = std::hash<T>(key);
-		while (this->data[index].getKey() != key)
-		{
-			if (this->data[index].getKey() == nullptr && !this->data[index].isDel())
-				throw std::exception("Access: Wrong key");
+        this->data[index].clear();
+        this->data[index].setDel(true);
+        this->maxSize--;
+    }
 
-			index += prime;
-			index %= this->maxSize;
-		}
+    K operator[](T key) {
+        size_t index = hash(key);
+        while (this->data[index].getKey() != key) {
+            if (this->data[index].getKey() == T() &&
+                !this->data[index].isDel())
+                throw std::exception("Access: Wrong key");
 
-		return this->data[index].getValue();
-	}
+            index += prime;
+            index %= this->maxSize;
+        }
 
-private:
-	Record<T, K>* data;
-	int _size;
-	int maxSize;
+        return this->data[index].getValue();
+    }
 
-	const int prime = 1;
+    Hashmap& operator=(const Hashmap& rv) {
+        if (this == &rv) {
+            return *this;
+        }
 
+        _size = rv._size;
+        maxSize = rv.maxSize;
+
+        delete[] data;
+        data = new Record<T, K>[maxSize];
+
+        for (int i = 0; i < maxSize; i++) {
+            data[i] = rv.data[i];
+        }
+
+        return *this;
+    }
+
+ private:
+    Record<T, K>* data;
+    int _size;
+    int maxSize;
+
+    const int prime = 1;
 };
 
-#endif // !USTIUZHANIN_HASHMAP
+#endif  // SOURCE_REPOS_DEVTOOLS_COURSE_PRACTICE_MODULES_USTIUZHANIN_N_HASHMAP_INCLUDE_HASHMAP_H_
