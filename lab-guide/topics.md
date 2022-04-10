@@ -50,7 +50,7 @@
 | Множества | | |
 | Priority queue | | |
 | d-куча | | |
-| hashmap | | |
+| hashmap | Устюжанин Никита 381906-1 | |
 | template binary heap | | |
 | Fibonacci heap | | |
 | Дерево отрезков | | |
