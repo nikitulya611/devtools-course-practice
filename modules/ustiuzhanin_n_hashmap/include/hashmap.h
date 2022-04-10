@@ -113,7 +113,7 @@ class Hashmap {
 
     Hashmap& resize(int newSize) {
         if (newSize <= maxSize)
-            throw "Resize: new size less or equal current size";
+            throw std::exception("Resize: new size less or equal current size");
 
         Hashmap<T, K> result(newSize);
         for (int i = 0; i < this->maxSize; i++) {
@@ -133,7 +133,7 @@ class Hashmap {
 
         while (this->data[index].getKey() != T()) {
             if (this->data[index].getKey() == rec.getKey()) {
-                throw "Record with this key already exist";
+                throw std::exception("Record with this key already exist");
             }
             index += prime;
         }
