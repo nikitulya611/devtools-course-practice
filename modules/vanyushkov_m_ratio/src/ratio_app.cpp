@@ -22,17 +22,16 @@ bool RatioApplication::validateNumberOfArguments(int argc, const char** argv) {
     if (argc == 1) {
         help(argv[0]);
         return false;
-    }
-    else if (argc != 6) {
+    } else if (argc != 6) {
         help(argv[0], "ERROR: Should be 5 arguments.\n\n");
         return false;
     }
     return true;
 }
 
-long parseLong(const char* arg) {
+int parseInt(const char* arg) {
     char* end;
-    long value = strtol(arg, &end, 10);
+    int value = strtol(arg, &end, 10);
 
     if (end[0]) {
         throw std::string("Wrong number format!");
@@ -45,17 +44,13 @@ char parseOperation(const char* arg) {
     char op;
     if (strcmp(arg, "+") == 0) {
         op = '+';
-    }
-    else if (strcmp(arg, "-") == 0) {
+    } else if (strcmp(arg, "-") == 0) {
         op = '-';
-    }
-    else if (strcmp(arg, "*") == 0) {
+    } else if (strcmp(arg, "*") == 0) {
         op = '*';
-    }
-    else if (strcmp(arg, "/") == 0) {
+    } else if (strcmp(arg, "/") == 0) {
         op = '/';
-    }
-    else {
+    } else {
         throw std::string("Wrong operation format!");
     }
     return op;
@@ -68,10 +63,10 @@ std::string RatioApplication::operator()(int argc, const char** argv) {
         return message_;
     }
     try {
-        args.first_numerator = parseLong(argv[1]);
-        args.first_denominator = parseLong(argv[2]);
-        args.second_numerator = parseLong(argv[3]);
-        args.second_denominator = parseLong(argv[4]);
+        args.first_numerator = parseInt(argv[1]);
+        args.first_denominator = parseInt(argv[2]);
+        args.second_numerator = parseInt(argv[3]);
+        args.second_denominator = parseInt(argv[4]);
         args.operation = parseOperation(argv[5]);
     }
     catch (std::string& str) {
