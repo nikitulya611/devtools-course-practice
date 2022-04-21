@@ -78,7 +78,7 @@ set_tests_properties (${prefix}_can_Divide_Ratio PROPERTIES
 
 add_test(
     NAME ${prefix}_can_Detect_Divide_By_Zero
-    COMMAND ${APPLICATION} 1 2 1 0 /
+    COMMAND ${APPLICATION} 1 2 0 1 /
 )
 set_tests_properties (${prefix}_can_Detect_Divide_By_Zero PROPERTIES
     PASS_REGULAR_EXPRESSION "Error! Division by ZERO"

@@ -105,8 +105,8 @@ std::string RatioApplication::operator()(int argc, const char** argv) {
                 << "Denominator = " << result.get_denominator();
             break;
         }
-        catch (std::string& str) {
-            return str;
+        catch (const char str[]) {
+            return std::string(str);
         }
     }
 
