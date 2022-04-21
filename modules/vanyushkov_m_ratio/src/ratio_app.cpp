@@ -1,5 +1,9 @@
 // Copyright 2022 Ustiuzhanin Nikita
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
 #include <string>
 #include <sstream>
 
