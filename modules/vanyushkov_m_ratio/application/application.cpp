@@ -1,6 +1,7 @@
 // Copyright 2022 Ustiuzhanin Nikita
 
 #include <iostream>
+#include <string>
 
 #include "include/ratio_app.h"
 
