@@ -1,0 +1,103 @@
+#############################################
+##### Testing
+#############################################
+
+set(prefix "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_Run
+    COMMAND ${APPLICATION}
+)
+set_tests_properties (${prefix}_can_Run PROPERTIES
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_Сan_Print_Help_Without_Arguments
+    COMMAND ${APPLICATION}
+)
+
+set_tests_properties (${prefix}_Сan_Print_Help_Without_Arguments PROPERTIES
+    PASS_REGULAR_EXPRESSION "This is an application for finding prime numbers in range"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_Сan_Check_1_Argument
+    COMMAND ${APPLICATION} 1
+)
+
+set_tests_properties (${prefix}_Сan_Check_1_Argument PROPERTIES
+    PASS_REGULAR_EXPRESSION "Error occured: Should be 2 arguments."
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_Can_Check_2_Arguments
+    COMMAND ${APPLICATION} 1 2 3
+)
+
+set_tests_properties (${prefix}_Can_Check_2_Arguments PROPERTIES
+    PASS_REGULAR_EXPRESSION "Error occured: Should be 2 arguments."
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_Can_Check_Format_1_In_Args
+    COMMAND ${APPLICATION} 1 5
+)
+
+set_tests_properties (${prefix}_Can_Check_Format_1_In_Args PROPERTIES
+    PASS_REGULAR_EXPRESSION "Error occured: First arg <= 1."
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_Can_Check_Format_First_More_Than_Second
+    COMMAND ${APPLICATION} 5 2
+)
+
+set_tests_properties (${prefix}_Can_Check_Format_First_More_Than_Second PROPERTIES
+    PASS_REGULAR_EXPRESSION "Error occured: First arg more than second."
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_Can_Check_Format_Wrong_Type_1
+    COMMAND ${APPLICATION} 3.22 5
+)
+
+set_tests_properties (${prefix}_Can_Check_Format_Wrong_Type_1 PROPERTIES
+    PASS_REGULAR_EXPRESSION "Error occured: Wrong argument type."
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_Can_Check_Format_Wrong_Type_2
+    COMMAND ${APPLICATION} pi 5
+)
+
+set_tests_properties (${prefix}_Can_Check_Format_Wrong_Type_2 PROPERTIES
+    PASS_REGULAR_EXPRESSION "Error occured: Wrong argument type."
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_Can_Print_Prime_Numbers_1
+    COMMAND ${APPLICATION} 2 6
+)
+
+set_tests_properties (${prefix}_Can_Print_Prime_Numbers_1 PROPERTIES
+    PASS_REGULAR_EXPRESSION "2 3 5"
+    LABELS "${MODULE}")
+
+
+add_test(
+    NAME ${prefix}_Can_Print_Prime_Numbers_2
+    COMMAND ${APPLICATION} 10 12
+)
+
+set_tests_properties (${prefix}_Can_Print_Prime_Numbers_2 PROPERTIES
+    PASS_REGULAR_EXPRESSION "11"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_Can_Print_Prime_Numbers_3
+    COMMAND ${APPLICATION} 10 13
+)
+
+set_tests_properties (${prefix}_Can_Print_Prime_Numbers_3 PROPERTIES
+    PASS_REGULAR_EXPRESSION "11 13"
+    LABELS "${MODULE}")

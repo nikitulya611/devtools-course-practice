@@ -43,6 +43,8 @@ jobs:
         ctest -VV -S devtools_test.cmake
 
     - name: Publish coverage
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       if: matrix.ctest_model == 'Coverage'
       run: $HOME/codecov -p dashboard/build
 

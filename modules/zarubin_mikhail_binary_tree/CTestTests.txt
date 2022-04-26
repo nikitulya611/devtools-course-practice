@@ -1,0 +1,93 @@
+#############################################
+##### Testing
+#############################################
+
+set(prefix "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_Run
+    COMMAND ${APPLICATION}
+)
+set_tests_properties (${prefix}_can_Run PROPERTIES
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_Print_Help_Without_Arguments
+    COMMAND ${APPLICATION}
+)
+
+set_tests_properties (${prefix}_can_Print_Help_Without_Arguments PROPERTIES
+    PASS_REGULAR_EXPRESSION "This is a binary tree application."
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_Check_Number_Of_Arguments
+    COMMAND ${APPLICATION} 1 2
+)
+set_tests_properties (${prefix}_can_Check_Number_Of_Arguments PROPERTIES
+    PASS_REGULAR_EXPRESSION "ERROR: Should be at least 4 arguments."
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_Check_Cannot_Be_Cast_To_Int
+    COMMAND ${APPLICATION} b add 2
+)
+set_tests_properties (${prefix}_can_Check_Cannot_Be_Cast_To_Int PROPERTIES
+    PASS_REGULAR_EXPRESSION "ERROR: Cannot be cast to an integer!"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_Check_Number_Out_Of_Range
+    COMMAND ${APPLICATION} 10000000000 add 2
+)
+set_tests_properties (${prefix}_can_Check_Number_Out_Of_Range PROPERTIES
+    PASS_REGULAR_EXPRESSION "ERROR : Number out of range!"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_Check_Wrong_Operation
+    COMMAND ${APPLICATION} 1 frii 2
+)
+set_tests_properties (${prefix}_can_Check_Wrong_Operation PROPERTIES
+    PASS_REGULAR_EXPRESSION "ERROR: Wrong operation!"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_Check_Add
+    COMMAND ${APPLICATION} 1 add 2
+)
+set_tests_properties (${prefix}_can_Check_Add PROPERTIES
+    PASS_REGULAR_EXPRESSION "Operand 2 was added!"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_Check_Delete
+    COMMAND ${APPLICATION} 1 delete 1
+)
+set_tests_properties (${prefix}_can_Check_Delete PROPERTIES
+    PASS_REGULAR_EXPRESSION "Operand 1 was deleted!"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_Check_Find
+    COMMAND ${APPLICATION} 1 find 1
+)
+set_tests_properties (${prefix}_can_Check_Find PROPERTIES
+    PASS_REGULAR_EXPRESSION "Operand 1 was founded!"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_Check_Not_Find
+    COMMAND ${APPLICATION} 1 find 2
+)
+set_tests_properties (${prefix}_can_Check_Not_Find PROPERTIES
+    PASS_REGULAR_EXPRESSION "Operand 2 not founded!"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_Check_Add_More_Initial_Values
+    COMMAND ${APPLICATION} 1 2 3 4 5 6 7 8 add 12
+)
+set_tests_properties (${prefix}_can_Check_Add_More_Initial_Values PROPERTIES
+    PASS_REGULAR_EXPRESSION "Operand 12 was added!"
+    LABELS "${MODULE}")
