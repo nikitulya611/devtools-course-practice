@@ -1,0 +1,85 @@
+###################
+##### Testing #####
+###################
+
+set(prefix "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_Run
+    COMMAND ${APPLICATION}
+)
+
+set_tests_properties (${prefix}_can_Run PROPERTIES
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_Print_Help_Without_Arguments
+    COMMAND ${APPLICATION}
+)
+
+set_tests_properties (${prefix}_can_Print_Help_Without_Arguments PROPERTIES
+    PASS_REGULAR_EXPRESSION "This is a pseudographics test application."
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_detect_invalid_argument
+    COMMAND ${APPLICATION} str123
+)
+
+set_tests_properties (${prefix}_can_detect_invalid_argument PROPERTIES
+    PASS_REGULAR_EXPRESSION "Invalid argument"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_output_1
+    COMMAND ${APPLICATION} 1
+)
+
+set_tests_properties (${prefix}_can_output_1 PROPERTIES
+    PASS_REGULAR_EXPRESSION "..| \n..| \n..| \n"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_output_10
+    COMMAND ${APPLICATION} 10
+)
+
+set_tests_properties (${prefix}_can_output_10 PROPERTIES
+    PASS_REGULAR_EXPRESSION "... ._. \n..| |.| \n..| |_| \n"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_output_84
+    COMMAND ${APPLICATION} 1
+)
+
+set_tests_properties (${prefix}_can_output_84 PROPERTIES
+    PASS_REGULAR_EXPRESSION "._. ... \n|_| |_| \n|_| ..| \n"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_output_multiple_numbers_1
+    COMMAND ${APPLICATION} 10 20
+)
+
+set_tests_properties (${prefix}_can_output_multiple_numbers_1 PROPERTIES
+    PASS_REGULAR_EXPRESSION "... ._. \n..| |.| \n..| |_| \n._. ._. \n._| |.| \n|_. _|_ \n"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_output_multiple_numbers_2
+    COMMAND ${APPLICATION} 17 93
+)
+
+set_tests_properties (${prefix}_can_output_multiple_numbers_2 PROPERTIES
+    PASS_REGULAR_EXPRESSION "... ._. \n..| ..| \n..| ..| \n._. ._. \n|_| ._| \n..| ._| \n"
+    LABELS "${MODULE}")
+
+add_test(
+    NAME ${prefix}_can_detected_negative_number
+    COMMAND ${APPLICATION} -10
+)
+
+set_tests_properties (${prefix}_can_detected_negative_number PROPERTIES
+    PASS_REGULAR_EXPRESSION "A negative number!"
+    LABELS "${MODULE}")
