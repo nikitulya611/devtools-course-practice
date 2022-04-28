@@ -6,6 +6,7 @@
 #include "include/hashmap.h"
 
 template class Hashmap<std::string, int>;
+template class Hashmap<int, int>;
 
 template <typename T, typename K>
 Hashmap<T, K>::Hashmap() {
