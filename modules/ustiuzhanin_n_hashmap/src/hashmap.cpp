@@ -84,7 +84,7 @@ void Hashmap<T, K>::insert(const Record<T, K>& rec) {
 }
 
 template <typename T, typename K>
-void Hashmap<T, K>::insert(T key = T(), K value = K()) {
+void Hashmap<T, K>::insert(T key, K value) {
     Record<T, K> rec(key, value);
     insert(rec);
 }
