@@ -20,6 +20,7 @@ TEST(USTIUZHANIN_NIKITA_HASHMAP_TESTS, ASSERT_RESIZE) {
 
 TEST(USTIUZHANIN_NIKITA_HASHMAP_TESTS, CORRECT_INSERT) {
     Hashmap<string, int> h;
+    h.size();
     string key = "myStr";
     int value = 1;
 
