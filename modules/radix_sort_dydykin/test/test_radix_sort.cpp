@@ -52,8 +52,8 @@ TEST(Dydykin_Pavel_Radix_Sort, Test_Little_Radix_Sort_Double) {
 }
 
 TEST(Dydykin_Pavel_Radix_Sort, Test_Middle_Radix_Sort_Double) {
-    std::vector<double> v(1000);
-    v = RadixSort::Get_Random_Vector(1000);
+    std::vector<double> v(70);
+    v = RadixSort::Get_Random_Vector(70);
 
     std::vector<double> tmp = RadixSort::Radix_Sort(v);
     std::sort(v.begin(), v.end());
