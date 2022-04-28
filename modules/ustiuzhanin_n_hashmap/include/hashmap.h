@@ -79,31 +79,23 @@ class Record {
 template<class T, class K>
 class Hashmap {
  public:
-     Hashmap();
+    Hashmap();
+    explicit Hashmap(int size);
+    virtual ~Hashmap();
 
-     explicit Hashmap(int size);
+    size_t hash(T key);
+    int size() const;
+    bool isEmpty() const;
+    bool isFull() const;
 
-     virtual ~Hashmap();
+    Hashmap& resize(int newSize);
 
-     size_t hash(T key);
+    void insert(const Record<T, K>& rec);
+    void insert(T key = T(), K value = K());
+    void erase(T key);
+    K operator[](T key);
 
-     int size() const;
-
-     bool isEmpty() const;
-
-     bool isFull() const;
-
-     Hashmap& resize(int newSize);
-
-     void insert(const Record<T, K>& rec);
-
-     void insert(T key = T(), K value = K());
-
-     void erase(T key);
-
-     K operator[](T key);
-
-     Hashmap& operator=(const Hashmap& rv);
+    Hashmap& operator=(const Hashmap& rv);
 
  private:
     Record<T, K>* data;
